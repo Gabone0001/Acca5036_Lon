@@ -1,14 +1,15 @@
 # Simple Library Management System (For Thonny or Any Python IDE)
+# This console-based app uses lists and dictionaries for managing data [1][2]
 
-# Data Storage
+# Data Storage (in-memory using Python lists and dictionaries) [2][3]
 book_list = []
 customer_list = []
 
-# Generate Customer IDs
+# Generate Unique Customer IDs [3]
 def generate_customer_id():
     return f"C{len(customer_list)+1:03}"
 
-# Main Menu
+# Main Menu Function (Menu-driven CLI structure) [4]
 def main_menu():
     while True:
         print("\nLibrary Management System")
@@ -25,6 +26,7 @@ def main_menu():
 
         choice = input("Enter your choice: ")
 
+        # Menu Navigation Logic [4]
         if choice == "1":
             add_book()
         elif choice == "2":
@@ -49,8 +51,9 @@ def main_menu():
         else:
             print("Invalid choice. Try again.")
 
-# Add Book
+# Add Book Function
 def add_book():
+    # Input with exit handling for user-friendly navigation [5]
     title = input("Enter book title (or 'exit' to cancel): ")
     if title.lower() == 'exit': return
 
@@ -60,16 +63,18 @@ def add_book():
     ui_no = input("Enter unique book ID (UI No.) (or 'exit' to cancel): ")
     if ui_no.lower() == 'exit': return
 
+    # Prevent duplicate UI Nos. [3]
     for book in book_list:
         if book['ui_no'] == ui_no:
             print("Book already exists.")
             return
 
+    # Append book to the in-memory list [2]
     book = {"title": title, "author": author, "ui_no": ui_no, "status": "available"}
     book_list.append(book)
     print("Book added successfully.")
 
-# Search Book
+# Search Book Function
 def search_book():
     term = input("Enter book title, author, or UI No. to search (or 'exit'): ")
     if term.lower() == 'exit': return
@@ -80,7 +85,7 @@ def search_book():
             return
     print("Book not found.")
 
-# View Books
+# View Books Function
 def view_books():
     if not book_list:
         print("No books available.")
@@ -88,13 +93,14 @@ def view_books():
         for book in book_list:
             print(book)
 
-# Update Book
+# Update Book Details
 def update_book():
     ui_no = input("Enter UI No. of the book to update (or 'exit'): ")
     if ui_no.lower() == 'exit': return
 
     for book in book_list:
         if book['ui_no'] == ui_no:
+            # Optional updates [1]
             title = input("Enter new title (or press Enter to skip): ")
             author = input("Enter new author (or press Enter to skip): ")
             if title: book['title'] = title
@@ -117,7 +123,7 @@ def delete_book():
             return
     print("Book not found.")
 
-# Add Customer
+# Add Customer Function
 def add_customer():
     name = input("Enter customer name (or 'exit'): ")
     if name.lower() == 'exit': return
@@ -130,7 +136,7 @@ def add_customer():
     customer_list.append(customer)
     print("Customer added successfully with ID:", customer_id)
 
-# View Customers
+# View All Customers
 def view_customers():
     if not customer_list:
         print("No customers found.")
@@ -138,7 +144,7 @@ def view_customers():
         for customer in customer_list:
             print(customer)
 
-# Rent Book
+# Rent Book Function (Link book to customer ID)
 def rent_book():
     customer_id = input("Enter customer ID (or 'exit'): ")
     if customer_id.lower() == 'exit': return
@@ -160,7 +166,7 @@ def rent_book():
             return
     print("Customer not found.")
 
-# Return Book
+# Return Book Function
 def return_book():
     ui_no = input("Enter book UI No. to return (or 'exit'): ")
     if ui_no.lower() == 'exit': return
@@ -175,5 +181,5 @@ def return_book():
             return
     print("Book not found.")
 
-# Run the program
+# Program Entry Point
 main_menu()
